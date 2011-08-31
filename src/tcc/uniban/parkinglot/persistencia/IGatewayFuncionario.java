@@ -13,5 +13,5 @@ import tcc.uniban.parkinglot.modelo.dominio.Funcionario;
  */
 public interface IGatewayFuncionario {
     public abstract void gravarFuncionario(Funcionario funcionario) throws ParkingLotException;
-    
+    public abstract void excluirFuncionario(Funcionario funcionario) throws ParkingLotException;
 }

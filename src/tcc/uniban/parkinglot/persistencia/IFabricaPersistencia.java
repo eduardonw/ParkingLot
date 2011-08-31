@@ -10,6 +10,4 @@ package tcc.uniban.parkinglot.persistencia;
  */
 public interface IFabricaPersistencia {
     public IGatewayFuncionario getGatewayFuncionario();
-    public IPesquisadorDeFuncionario getPesquisadorDeFuncionario();
 }
-

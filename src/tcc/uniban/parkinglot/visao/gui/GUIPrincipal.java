@@ -14,8 +14,6 @@ import java.beans.PropertyVetoException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import tcc.uniban.parkinglot.visao.ouvinte.OuvinteDeGUICadastroDeFuncionario;
-import tcc.uniban.parkinglot.visao.ouvinte.OuvinteDeGUIFuncionarios;
 
 /**
  *
@@ -179,7 +177,6 @@ private void itemDeMenuSobreActionPerformed(java.awt.event.ActionEvent evt) {//G
 private void itemDeMenuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeMenuFuncionarioActionPerformed
     if ((guiFuncionario == null) || (!guiFuncionario.isVisible())){
         guiFuncionario = new GUIFuncionario();
-        OuvinteDeGUIFuncionarios ouvinte = new OuvinteDeGUIFuncionarios(guiFuncionario);
         desktopPane.add(guiFuncionario);
         guiFuncionario.setPosicao();
         guiFuncionario.setVisible(true);

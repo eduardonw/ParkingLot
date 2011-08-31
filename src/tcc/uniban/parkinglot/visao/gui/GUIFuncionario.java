@@ -11,11 +11,8 @@
 package tcc.uniban.parkinglot.visao.gui;
 
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
-import java.util.Iterator;
-import java.util.List;
-import javax.swing.table.DefaultTableModel;
+import tcc.uniban.parkinglot.excecao.ParkingLotException;
 import tcc.uniban.parkinglot.modelo.dominio.Funcionario;
 import tcc.uniban.parkinglot.modelo.dominio.constante.Constante;
 import tcc.uniban.parkinglot.visao.ouvinte.OuvinteDeGUICadastroDeFuncionario;
@@ -27,49 +24,23 @@ import tcc.uniban.parkinglot.visao.ouvinte.OuvinteDeGUICadastroDeFuncionario;
 public class GUIFuncionario extends javax.swing.JInternalFrame {
     
     private GUICadastroDeFuncionario guiCadastroDefuncionario;
-    private List funcionarios;
+    
+    public Funcionario getFuncionario() throws ParkingLotException{
+        Funcionario funcionario = null;
+        int linhaSelecionada = tFuncionarios.getSelectedRow();
+        if (linhaSelecionada < 0){
+            throw new ParkingLotException("Não foi selecionado nenhum funcionario");
+        }
+        funcionario = (Funcionario) this.funcionario.get(linhaSelecionada);
+        return funcionario;
+        
+        
+    }
     
     public void setPosicao() {
         Dimension d = this.getDesktopPane().getSize();
         this.setLocation((d.width - this.getSize().width) / 6, (d.height -
                 this.getSize().height) / 6);
-    }
-    
-    public void exibirFuncionario(List funcionarios){
-        this.funcionarios = funcionarios;
-        
-        DefaultTableModel model = (DefaultTableModel) tFuncionarios.getModel();
-        this.removerLinhasDaTabela(model);
-        
-        Iterator resultado = funcionarios.iterator();
-        
-        while(resultado.hasNext()){
-            Funcionario funcionario = (Funcionario) resultado.next();
-            String nome = funcionario.getNome();
-            String telefoneFixo = funcionario.getTelefoneFixo();
-            String telefoneCelular = funcionario.getTelefoneCelular();
-            int grupo = funcionario.getGrupo();
-            
-            Object[] linha = {nome, telefoneFixo, telefoneCelular, grupo};
-            
-            model.addRow(linha);
-            
-        }
-    }
-    
-    private void removerLinhasDaTabela(DefaultTableModel model){
-        while(model.getRowCount() > 0){
-            int ultimaLinha = model.getRowCount()-1;
-            model.removeRow(ultimaLinha);
-        }
-    }
-    
-    public String getNome(){
-        return tfNome.getText().trim();
-    }
-    
-    public void bPesquisarFuncionarioAddActionListener(ActionListener ouvinte){
-        bPesquisaFuncionario.addActionListener(ouvinte);
     }
     
     private void abrirGUICadastroDeFuncionario(Funcionario funcionario){
@@ -122,13 +93,15 @@ public class GUIFuncionario extends javax.swing.JInternalFrame {
 
         tFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nome", "Tel. Fixo", "Celular", "Grupo"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tFuncionarios.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tFuncionarios);
 
         bNovoFuncionario.setText("Novo Funcionário");
@@ -178,18 +151,19 @@ public class GUIFuncionario extends javax.swing.JInternalFrame {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(181, 181, 181)
-                        .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(bAlterarFuncionario)
-                        .add(18, 18, 18)
-                        .add(bExcluirFuncionario))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(bNovoFuncionario)
-                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 805, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(653, Short.MAX_VALUE)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, bNovoFuncionario)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                .add(bAlterarFuncionario)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(bExcluirFuncionario))))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(181, 181, 181)
+                        .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -201,11 +175,11 @@ public class GUIFuncionario extends javax.swing.JInternalFrame {
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(bExcluirFuncionario)
-                    .add(bAlterarFuncionario))
+                    .add(bAlterarFuncionario)
+                    .add(bExcluirFuncionario))
                 .add(18, 18, 18)
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
